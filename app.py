@@ -51,3 +51,14 @@ def home():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+import os
+import mysql.connector
+
+db = mysql.connector.connect(
+    host="localhost",
+    user="testuser",
+    password="testpassword",
+    database="testdb",
+    port=3306
+)
