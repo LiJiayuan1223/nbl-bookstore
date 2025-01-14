@@ -36,11 +36,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        cd ./nbl-bookstore
         pip install -r requirements.txt
-
-    - name: Set working directory for testing
-      run: |
-        cd nbl-bookstore
 
     - name: Wait for MySQL to initialize
       run: |
@@ -57,4 +54,4 @@ jobs:
         MYSQL_PASSWORD: 1234
         MYSQL_DATABASE: testdb
       run: |
-        python -m unittest discover -s tests
+        python -m unittest discover -s ./nbl-bookstore/tests
