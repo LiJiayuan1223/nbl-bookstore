@@ -1,10 +1,10 @@
-import os
-import mysql.connector
+from flask import Flask, render_template
 
-db = mysql.connector.connect(
-    host=os.getenv("MYSQL_HOST", "localhost"),
-    user=os.getenv("MYSQL_USER", "root"),
-    password=os.getenv("MYSQL_PASSWORD", "1234"),
-    database=os.getenv("MYSQL_DATABASE", "testdb"),
-    port=3306
-)
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+if __name__ == "__main__":
+    app.run()
