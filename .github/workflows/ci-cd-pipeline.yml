@@ -10,6 +10,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpassword
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -24,6 +40,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Wait for MySQL to initialize
+      run: |
+        until mysqladmin ping -h"127.0.0.1" --silent; do sleep 1; done
+
     - name: Run tests
+      env:
+        MYSQL_HOST: 127.0.0.1
+        MYSQL_USER: testuser
+        MYSQL_PASSWORD: testpassword
+        MYSQL_DATABASE: testdb
       run: |
         python -m unittest discover -s tests
