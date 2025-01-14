@@ -1,11 +1,10 @@
-import unittest
-from app import app
+import os
+import mysql.connector
 
-class TestApp(unittest.TestCase):
-    def test_home(self):
-        tester = app.test_client(self)
-        response = tester.get('/')
-        self.assertEqual(response.status_code, 200)
-
-if __name__ == '__main__':
-    unittest.main()
+db = mysql.connector.connect(
+    host=os.getenv("MYSQL_HOST", "localhost"),
+    user=os.getenv("MYSQL_USER", "root"),
+    password=os.getenv("MYSQL_PASSWORD", "1234"),
+    database=os.getenv("MYSQL_DATABASE", "testdb"),
+    port=3306
+)

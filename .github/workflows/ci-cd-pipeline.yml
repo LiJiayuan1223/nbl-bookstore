@@ -14,10 +14,10 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: 1234
           MYSQL_DATABASE: testdb
-          MYSQL_USER: testuser
-          MYSQL_PASSWORD: testpassword
+          MYSQL_USER: root
+          MYSQL_PASSWORD: 1234
         ports:
           - 3306:3306
         options: >-
@@ -46,13 +46,13 @@ jobs:
 
     - name: Create the database
       run: |
-        mysql -h 127.0.0.1 -u testuser -ptestpassword -e "CREATE DATABASE IF NOT EXISTS testdb;"
+        mysql -h 127.0.0.1 -uroot -p1234 -e "CREATE DATABASE IF NOT EXISTS testdb;"
 
     - name: Run tests
       env:
         MYSQL_HOST: 127.0.0.1
-        MYSQL_USER: testuser
-        MYSQL_PASSWORD: testpassword
+        MYSQL_USER: root
+        MYSQL_PASSWORD: 1234
         MYSQL_DATABASE: testdb
       run: |
         python -m unittest discover -s tests
