@@ -42,7 +42,11 @@ jobs:
 
     - name: Wait for MySQL to initialize
       run: |
-        until mysqladmin ping -h"127.0.0.1" --silent; do sleep 1; done
+        until mysqladmin ping -h127.0.0.1 --silent; do sleep 1; done
+
+    - name: Create the database
+      run: |
+        mysql -h 127.0.0.1 -u testuser -ptestpassword -e "CREATE DATABASE IF NOT EXISTS testdb;"
 
     - name: Run tests
       env:
