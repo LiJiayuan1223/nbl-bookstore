@@ -1,0 +1,4 @@
+Flask
+Flask-Testing
+SQLAlchemy
+# Add other dependencies here
