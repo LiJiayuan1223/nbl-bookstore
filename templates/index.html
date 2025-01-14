@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBL Bookstore</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to NBL Bookstore</h1>
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Enter book title...">
+            <button onclick="fetchBooksBySearch()">Search</button>
+        </div>
+        <div class="category-container">
+            <label for="category">Select Category:</label>
+            <select id="category" name="category" onchange="fetchBooksByCategory()">
+                <option value="">All Categories</option>
+                <option value="early_readers">Early Readers</option>
+                <option value="adults">Adults</option>
+                <option value="economy">Economy</option>
+                <option value="history">History</option>
+                <option value="tourism">Tourism</option>
+                <option value="technology">Technology</option>
+            </select>
+        </div>
+        <h2>Newest Books</h2>
+        <div id="newBooksList"></div>
+        <h2>All Books</h2>
+        <div id="bookList"></div>
+    </div>
+    <script>
+        async function fetchBooks(category = '', query = '') {
+            const response = await fetch(`/books${category ? `?category=${category}` : query ? `?q=${query}` : ''}`);
+            const books = await response.json();
+            const bookList = document.getElementById('bookList');
+            bookList.innerHTML = ''; // Clear previous list
+            books.forEach(book => {
+                const bookItem = document.createElement('div');
+                bookItem.className = 'book-item';
+                bookItem.innerHTML = `<a href="/books/${book.id}">${book.title}</a><span>${book.category}, Published on: ${book.publication_date}</span>`;
+                bookList.appendChild(bookItem);
+            });
+        }
+
+        async function fetchNewBooks() {
+            const response = await fetch('/new-books');
+            const newBooks = await response.json();
+            const newBooksList = document.getElementById('newBooksList');
+            newBooksList.innerHTML = ''; // Clear previous list
+            newBooks.forEach(book => {
+                const bookItem = document.createElement('div');
+                bookItem.className = 'book-item';
+                bookItem.innerHTML = `<a href="/books/${book.id}">${book.title}</a><span>${book.category}, Published on: ${book.publication_date}</span>`;
+                newBooksList.appendChild(bookItem);
+            });
+        }
+
+        function fetchBooksByCategory() {
+            const category = document.getElementById('category').value;
+            fetchBooks(category);
+        }
+
+        function fetchBooksBySearch() {
+            const query = document.getElementById('search').value;
+            fetchBooks('', query);
+        }
+
+        // Load all books and newest books by default
+        fetchBooks();
+        fetchNewBooks();
+    </script>
+</body>
+</html>
