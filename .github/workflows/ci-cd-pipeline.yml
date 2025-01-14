@@ -38,6 +38,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Set working directory for testing
+      run: |
+        cd nbl-bookstore
+
     - name: Wait for MySQL to initialize
       run: |
         until mysqladmin ping -h127.0.0.1 --silent; do sleep 1; done
