@@ -31,13 +31,11 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
-
-    - name: Set working directory
-      run: cd /home/runner/work/nbl-bookstore/nbl-bookstore
+        python-version: "3.x"
 
     - name: Install dependencies
       run: |
+        cd nbl-bookstore
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
@@ -56,4 +54,5 @@ jobs:
         MYSQL_PASSWORD: 1234
         MYSQL_DATABASE: testdb
       run: |
+        cd /home/runner/work/nbl-bookstore/nbl-bookstore
         python -m unittest discover -s tests

@@ -1,9 +1,9 @@
-import sys
+import unittest
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app import app
-import unittest
 
 class TestApp(unittest.TestCase):
     def test_home(self):
