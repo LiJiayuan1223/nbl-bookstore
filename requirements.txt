@@ -1,9 +1,5 @@
 Flask
 Flask-Testing
 SQLAlchemy
-# Add other dependencies here
-Flask
-Flask-Testing
-SQLAlchemy
 mysql-connector-python
 # Add other dependencies here
